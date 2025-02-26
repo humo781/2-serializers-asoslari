@@ -7,7 +7,7 @@ class Comment(models.Model):
     author_email = models.EmailField(unique=True)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    parent_comment = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
+    parent_comment = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='replies')
 
     def __str__(self):
         return f"{self.author_name}'s Comment"

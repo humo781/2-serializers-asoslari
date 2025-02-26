@@ -8,7 +8,7 @@ from authors.serializers import AuthorSerializer
 class PostSerializer(serializers.ModelSerializer):
     categories = CategorySerializer()
     tags = TagSerializer(many=True)
-    authors = AuthorSerializer()
+    authors = AuthorSerializer(read_only=True)
     comments_count = serializers.SerializerMethodField()
 
     def get_comments_count(self, obj):
@@ -27,3 +27,5 @@ class PostSerializer(serializers.ModelSerializer):
         if 'slug' not in validated_data or not validated_data['slug']:
             validated_data['slug'] = slugify(validated_data['title'])
         return super().create(validated_data)
+
+
