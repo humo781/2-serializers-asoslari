@@ -22,5 +22,5 @@ urlpatterns = [
     path('api/catalogs/', include('catalogs.urls')),
     path('api/comments/', include('comments.urls')),
     path('api/posts/', include('posts.urls')),
-    # path('api/tags/', include('tags.urls')),
+    path('api/tags/', include('tags.urls')),
 ]

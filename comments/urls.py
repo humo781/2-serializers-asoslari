@@ -4,5 +4,5 @@ from .views import CommentListCreateView
 app_name = 'posts'
 
 urlpatterns = [
-    path('posts/', CommentListCreateView.as_view(), name='list'),
+    path('', CommentListCreateView.as_view(), name='list'),
 ]
