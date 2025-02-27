@@ -1,22 +1,30 @@
 from django.utils.text import slugify
 from rest_framework import serializers
 from .models import Post
-from catalogs.serializers import CategorySerializer
-from tags.serializers import TagSerializer
 from authors.serializers import AuthorSerializer
 
 class PostSerializer(serializers.ModelSerializer):
-    categories = CategorySerializer()
-    tags = TagSerializer(many=True)
     authors = AuthorSerializer(read_only=True)
     comments_count = serializers.SerializerMethodField()
+    category = serializers.SerializerMethodField()
+    tags = serializers.SerializerMethodField()
+
+    def get_category(self, obj):
+        from catalogs.serializers import CategorySerializer
+        category = CategorySerializer(obj.categories).data
+        return category
+
+    def get_tags(self, obj):
+        from tags.serializers import TagSerializer
+        tags = TagSerializer(obj.tags.all(), many=True).data
+        return tags
 
     def get_comments_count(self, obj):
         return obj.comments.count()
 
     class Meta:
         model = Post
-        fields = ['title', 'content', 'comments_count', 'tags', 'authors', 'categories']
+        fields = ['title', 'content', 'comments_count', 'authors', 'category', 'tags']
 
     def validate_title(self, value):
         if len(value) < 3:
